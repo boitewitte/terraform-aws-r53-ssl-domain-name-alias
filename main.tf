@@ -49,7 +49,7 @@ resource "aws_route53_record" "cert_validation" {
   type    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_type, count.index)}"
   records = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, count.index)}"
 
-  tags = "${module.label.tags}"
+  # tags = "${module.label.tags}"
 
   ttl = 60
 }
@@ -75,5 +75,5 @@ resource "aws_route53_record" "service" {
     evaluate_target_health = "${var.alias_evaluate_target_health}"
   }
 
-  tags = "${module.label.tags}"
+  # tags = "${module.label.tags}"
 }
