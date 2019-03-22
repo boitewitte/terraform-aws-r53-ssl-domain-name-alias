@@ -75,7 +75,7 @@ variable "alternative_names" {
 
 variable "domain_name" {
   type        = "string"
-  description = "Domain name"
+  description = "The main domain name"
 }
 
 variable "zone_name" {
@@ -85,5 +85,6 @@ variable "zone_name" {
 
 variable "zone_private" {
   type        = "string"
+  description = "Set to true when Hosted Zone is a Private hosted zone"
   description = "false"
 }
