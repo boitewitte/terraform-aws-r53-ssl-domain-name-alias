@@ -1,9 +1,11 @@
 locals {
-  domain_names = ["${var.enabled ? concat(list(var.name), var.alternative_names) : list()}"]
+  domain_names = "${concat(list(var.name), var.alternative_names)}"
+
+  enabled = "${var.enabled ? 1 : 0}"
 }
 
 data "aws_route53_zone" "domain" {
-  count = "${var.enabled ? 1 : 0}"
+  count = "${local.enabled ? 1 : 0}"
 
   name         = "${var.zone_name}"
   private_zone = "${var.zone_private}"
@@ -26,7 +28,7 @@ module "label" {
 }
 
 resource "aws_acm_certificate" "cert" {
-  count = "${var.enabled ? 1 : 0}"
+  count = "${local.enabled ? 1 : 0}"
 
   domain_name               = "${var.domain_name}"
   subject_alternative_names = ["${var.alternative_names}"]
@@ -41,7 +43,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
-  count = "${var.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
+  count = "${local.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
 
   zone_id = "${data.aws_route53_zone.domain.id}"
 
@@ -55,7 +57,7 @@ resource "aws_route53_record" "cert_validation" {
 }
 
 resource "aws_acm_certificate_validation" "cert" {
-  count = "${var.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
+  count = "${local.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
 
   certificate_arn = "${aws_acm_certificate.cert.arn}"
 
@@ -63,7 +65,7 @@ resource "aws_acm_certificate_validation" "cert" {
 }
 
 resource "aws_route53_record" "service" {
-  count = "${var.enabled ? length(local.domain_names) : 0}"
+  count = "${local.enabled ? length(local.domain_names) : 0}"
 
   zone_id = "${data.aws_route53_zone.domain.zone_id}"
   name    = "${element(local.domain_names, count.index)}"
