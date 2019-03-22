@@ -44,7 +44,7 @@ resource "aws_route53_record" "cert_validation" {
   count = "${local.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
   depends_on = ["aws_acm_certificate.cert"]
 
-  zone_id = "${data.aws_route53_zone.domain.id}"
+  zone_id = "${data.aws_route53_zone.zone.id}"
 
   name    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_name, count.index)}"
   type    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_type, count.index)}"
@@ -66,7 +66,7 @@ resource "aws_acm_certificate_validation" "cert" {
 resource "aws_route53_record" "service" {
   count = "${local.enabled ? length(local.domain_names) : 0}"
 
-  zone_id = "${data.aws_route53_zone.domain.zone_id}"
+  zone_id = "${data.aws_route53_zone.zone.zone_id}"
   name    = "${element(local.domain_names, count.index)}"
   type    = "A"
 
