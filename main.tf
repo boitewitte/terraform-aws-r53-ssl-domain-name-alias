@@ -49,7 +49,7 @@ resource "aws_route53_record" "cert_validation" {
 
   name    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_name, count.index)}"
   type    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_type, count.index)}"
-  records = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, count.index)}"
+  records = ["${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, count.index)}"]
 
   # tags = "${module.label.tags}"
 
