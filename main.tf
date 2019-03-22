@@ -1,5 +1,5 @@
 locals {
-  domain_names = "${concat(list(var.name), var.alternative_names)}"
+  domain_names = "${concat(list(var.domain_name), var.alternative_names)}"
 
   enabled = "${var.enabled ? 1 : 0}"
 }
