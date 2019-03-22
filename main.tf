@@ -5,8 +5,8 @@ locals {
 data "aws_route53_zone" "domain" {
   count = "${var.enabled ? 1 : 0}"
 
-  name         = "${var.zone}"
-  private_zone = false
+  name         = "${var.zone_name}"
+  private_zone = "${var.zone_private}"
 }
 
 module "label" {

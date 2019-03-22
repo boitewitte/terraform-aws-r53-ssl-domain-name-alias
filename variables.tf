@@ -78,7 +78,12 @@ variable "domain_name" {
   description = "Domain name"
 }
 
-variable "zone" {
+variable "zone_name" {
   type        = "string"
-  description = "Domain Zone"
+  description = "The Hosted Zone name of the desired Hosted Zone."
+}
+
+variable "zone_private" {
+  type        = "string"
+  description = "false"
 }
