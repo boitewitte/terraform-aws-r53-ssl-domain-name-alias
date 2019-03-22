@@ -4,9 +4,7 @@ locals {
   enabled = "${var.enabled ? 1 : 0}"
 }
 
-data "aws_route53_zone" "domain" {
-  count = "${local.enabled ? 1 : 0}"
-
+data "aws_route53_zone" "zone" {
   name         = "${var.zone_name}"
   private_zone = "${var.zone_private}"
 }
@@ -44,6 +42,7 @@ resource "aws_acm_certificate" "cert" {
 
 resource "aws_route53_record" "cert_validation" {
   count = "${local.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
+  depends_on = ["aws_acm_certificate.cert"]
 
   zone_id = "${data.aws_route53_zone.domain.id}"
 
