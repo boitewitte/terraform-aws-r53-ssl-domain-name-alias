@@ -86,5 +86,5 @@ variable "zone_name" {
 variable "zone_private" {
   type        = "string"
   description = "Set to true when Hosted Zone is a Private hosted zone"
-  description = "false"
+  default     = false
 }
