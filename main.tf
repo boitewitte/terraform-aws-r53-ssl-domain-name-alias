@@ -47,9 +47,9 @@ resource "aws_route53_record" "cert_validation" {
 
   zone_id = "${data.aws_route53_zone.zone.id}"
 
-  name    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_name, count.index)}"
-  type    = "${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_type, count.index)}"
-  records = ["${element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, count.index)}"]
+  name    = "${aws_acm_certificate.cert.domain_validation_options.resource_record_name}"
+  type    = "${aws_acm_certificate.cert.domain_validation_options.resource_record_type}"
+  records = ["${aws_acm_certificate.cert.domain_validation_options.resource_record_value}"]
 
   # tags = "${module.label.tags}"
 
