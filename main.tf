@@ -43,7 +43,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
-  count = "${local.enabled == "true" ? length(aws_acm_certificate.cert.*.domain_validation_options) : 0}"
+  count = "${local.enabled == "true" ? 1 : 0}"
 
   zone_id = "${data.aws_route53_zone.zone.id}"
 
