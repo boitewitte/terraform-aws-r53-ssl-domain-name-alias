@@ -43,7 +43,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
-  count = "${local.enabled ? length(aws_acm_certificate.cert.domain_validation_options) : 0}"
+  count = "${local.enabled ? length(aws_acm_certificate.cert.*.domain_validation_options) : 0}"
   depends_on = ["aws_acm_certificate.cert"]
 
   zone_id = "${data.aws_route53_zone.zone.id}"
